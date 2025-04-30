@@ -13,13 +13,14 @@ const useStyles = makeStyles({
     flexDirection: "column",
     alignItems: "center",
     paddingBottom: "30px",
-    paddingTop: "100px",
-    backgroundColor: tokens.colorNeutralBackground3,
+    paddingTop: "60px",
+    backgroundColor: tokens.colorBrandStroke1,
   },
   message: {
-    fontSize: tokens.fontSizeHero900,
+    fontSize: tokens.fontSizeBase500,
     fontWeight: tokens.fontWeightRegular,
     fontColor: tokens.colorNeutralBackgroundStatic,
+    textAlign: "center",
   },
 });
 

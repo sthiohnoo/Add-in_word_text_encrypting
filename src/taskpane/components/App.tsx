@@ -37,7 +37,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
 
   return (
     <div className={styles.root}>
-      <Header logo="assets/logo-filled.png" title={props.title} message="Welcome" />
+      <Header logo="assets/encryption-icon-15210.png" title={props.title} message="Welcome to my simple text en-/decrypting Add-in!" />
       <HeroList message="Discover what this add-in can do for you today!" items={listItems} />
       <TextInsertion insertText={insertText} />
     </div>
