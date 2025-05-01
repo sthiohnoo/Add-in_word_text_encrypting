@@ -12,6 +12,7 @@ import {
   makeStyles,
 } from "@fluentui/react-components";
 import { encryptText } from "../utils/crypting";
+import { replaceSelectedText } from "../taskpane";
 
 interface PasswordDialogProps {
   selectedText: string;
@@ -33,6 +34,7 @@ const PasswordDialog: React.FC<PasswordDialogProps> = ({ selectedText }) => {
     const encryptedText = await encryptText(selectedText, password);
     console.log("Selected text:", selectedText);
     console.log("Encrypted text:", encryptedText);
+    await replaceSelectedText(encryptedText);
     setOpen(false);
   };
 

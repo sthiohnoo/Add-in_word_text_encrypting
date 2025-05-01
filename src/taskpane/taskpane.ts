@@ -26,3 +26,17 @@ export async function getSelectedText(): Promise<string | null> {
     return null;
   }
 }
+
+export async function replaceSelectedText(newText: string) {
+  try {
+    await Word.run(async (context) => {
+      const selection = context.document.getSelection();
+      selection.insertText(newText, Word.InsertLocation.replace);
+      selection.font.color = "red";
+      selection.font.underline = Word.UnderlineType.double;
+      await context.sync();
+    });
+  } catch (error) {
+    console.log("Error: " + error);
+  }
+}
