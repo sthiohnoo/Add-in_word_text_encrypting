@@ -13,6 +13,7 @@ import {
 } from "@fluentui/react-components";
 import { encryptText } from "../utils/crypting";
 import { replaceSelectedText } from "../taskpane";
+import ErrorPopover from "./ErrorPopover";
 
 interface PasswordDialogProps {
   selectedText: string;
@@ -28,14 +29,22 @@ const useStyles = makeStyles({
 const PasswordDialog: React.FC<PasswordDialogProps> = ({ selectedText }) => {
   const [password, setPassword] = React.useState("");
   const [open, setOpen] = React.useState(false);
+  const [showPopover, setShowPopover] = React.useState(false);
   const styles = useStyles();
 
   const handleEncrypt = async () => {
-    const encryptedText = await encryptText(selectedText, password);
-    console.log("Selected text:", selectedText);
-    console.log("Encrypted text:", encryptedText);
-    await replaceSelectedText(encryptedText);
-    setOpen(false);
+    if (selectedText !== "") {
+      const encryptedText = await encryptText(selectedText, password);
+      console.log("Selected text:", selectedText);
+      console.log("Encrypted text:", encryptedText);
+      await replaceSelectedText(encryptedText);
+      setOpen(false);
+    } else {
+      setShowPopover(true);
+      setTimeout(() => {
+        setShowPopover(false);
+      }, 3000);
+    }
   };
 
   return (
@@ -56,9 +65,14 @@ const PasswordDialog: React.FC<PasswordDialogProps> = ({ selectedText }) => {
             ></Input>
           </DialogContent>
           <DialogActions>
-            <Button appearance="primary" onClick={handleEncrypt}>
-              Encrypt
-            </Button>
+            <ErrorPopover
+              open={showPopover}
+              trigger={
+                <Button appearance="primary" onClick={handleEncrypt} disabled={!password}>
+                  Encrypt
+                </Button>
+              }
+            />
             <Button appearance="secondary" onClick={() => setOpen(false)}>
               Cancel
             </Button>
