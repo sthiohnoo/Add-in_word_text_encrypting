@@ -32,7 +32,7 @@ const TextEncrypting: React.FC<TextEncryptingProps> = (props: TextEncryptingProp
     <div>
       <button onClick={handleSelectedText}>Show selected text</button>
       <div className={styles.textAreaDiv}>{text || "No text selected"}</div>
-      <PasswordDialog />
+      <PasswordDialog selectedText={text} />
     </div>
   );
 };
