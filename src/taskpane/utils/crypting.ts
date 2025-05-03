@@ -52,11 +52,14 @@ export async function decryptCipherText(encryptedText: string, password: string)
 
   const key = await deriveKey(password, salt);
 
-  const decryptedCipherText = await crypto.subtle.decrypt(
-    { name: "AES-GCM", iv: initializationVector },
-    key,
-    cipherText
-  );
-
-  return new TextDecoder().decode(decryptedCipherText);
+  try {
+    const decryptedCipherText = await crypto.subtle.decrypt(
+      { name: "AES-GCM", iv: initializationVector },
+      key,
+      cipherText
+    );
+    return new TextDecoder().decode(decryptedCipherText);
+  } catch {
+    throw new Error("Decryption failed. Invalid text or password.");
+  }
 }

@@ -4,6 +4,11 @@ import { makeStyles, Popover, PopoverSurface, PopoverTrigger } from "@fluentui/r
 interface ErrorPopoverProps {
   open: boolean;
   trigger: React.ReactElement;
+  message: string;
+}
+
+interface ErrorContentProps {
+  message: string;
 }
 
 const useStyles = makeStyles({
@@ -13,23 +18,23 @@ const useStyles = makeStyles({
   },
 });
 
-const ErrorContent = () => {
+const ErrorContent: React.FC<ErrorContentProps> = ({ message }) => {
   const styles = useStyles();
   return (
     <div>
       <h3 className={styles.contentHeader}>Error</h3>
 
-      <div>No text selected. Please highlight text to en-/decrypt.</div>
+      <div>{message}</div>
     </div>
   );
 };
 
-const ErrorPopover: React.FC<ErrorPopoverProps> = ({ open, trigger }) => {
+const ErrorPopover: React.FC<ErrorPopoverProps> = ({ open, trigger, message }) => {
   return (
     <Popover open={open} withArrow>
       <PopoverTrigger disableButtonEnhancement>{trigger}</PopoverTrigger>
       <PopoverSurface tabIndex={-1}>
-        <ErrorContent />
+        <ErrorContent message={message} />
       </PopoverSurface>
     </Popover>
   );

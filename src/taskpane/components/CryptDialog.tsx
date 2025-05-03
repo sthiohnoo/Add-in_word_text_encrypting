@@ -39,6 +39,7 @@ const CryptDialog: React.FC<PasswordDialogProps> = ({ selectedText, mode }) => {
   const [password, setPassword] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [showPopover, setShowPopover] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
   const styles = useStyles();
 
   const isEncryptMode = mode === "encrypt";
@@ -55,6 +56,7 @@ const CryptDialog: React.FC<PasswordDialogProps> = ({ selectedText, mode }) => {
       await replaceSelectedText(encryptedText, "encrypt");
       setOpen(false);
     } else {
+      setErrorMessage("No text selected. Please highlight text to encrypt.");
       setShowPopover(true);
       setTimeout(() => {
         setShowPopover(false);
@@ -64,12 +66,19 @@ const CryptDialog: React.FC<PasswordDialogProps> = ({ selectedText, mode }) => {
 
   const handleDecrypt = async () => {
     if (selectedText !== "") {
-      const decryptedText = await decryptCipherText(selectedText, password);
-      console.log(decryptedText);
-      console.log(selectedText);
-      await replaceSelectedText(decryptedText);
-      setOpen(false);
+      try {
+        const decryptedText = await decryptCipherText(selectedText, password);
+        await replaceSelectedText(decryptedText);
+        setOpen(false);
+      } catch (error) {
+        setErrorMessage(error.message);
+        setShowPopover(true);
+        setTimeout(() => {
+          setShowPopover(false);
+        }, 3000);
+      }
     } else {
+      setErrorMessage("No text selected. Please highlight text to decrypt.");
       setShowPopover(true);
       setTimeout(() => {
         setShowPopover(false);
@@ -106,6 +115,7 @@ const CryptDialog: React.FC<PasswordDialogProps> = ({ selectedText, mode }) => {
                   {cryptButtonLabel}
                 </Button>
               }
+              message={errorMessage}
             />
             <Button appearance="secondary" onClick={() => setOpen(false)}>
               Cancel

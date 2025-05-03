@@ -1,6 +1,6 @@
 import * as React from "react";
 import Header from "./Header";
-import TextEncrypting from "./TextEncrypting";
+import Crypting from "./Crypting";
 import { makeStyles } from "@fluentui/react-components";
 import { getSelectedText } from "../taskpane";
 
@@ -24,7 +24,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
         title={props.title}
         message="Welcome to my simple text en-/decrypting Add-in!"
       />
-      <TextEncrypting selectedText={getSelectedText} />
+      <Crypting selectedText={getSelectedText} />
     </div>
   );
 };

@@ -19,7 +19,7 @@ const useStyles = makeStyles({
   },
 });
 
-const TextEncrypting: React.FC<TextEncryptingProps> = (props: TextEncryptingProps) => {
+const Crypting: React.FC<TextEncryptingProps> = (props: TextEncryptingProps) => {
   const [text, setText] = React.useState<string>("");
   const styles = useStyles();
 
@@ -38,4 +38,4 @@ const TextEncrypting: React.FC<TextEncryptingProps> = (props: TextEncryptingProp
   );
 };
 
-export default TextEncrypting;
+export default Crypting;
