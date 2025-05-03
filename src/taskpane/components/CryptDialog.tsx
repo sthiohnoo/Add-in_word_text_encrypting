@@ -52,7 +52,7 @@ const CryptDialog: React.FC<PasswordDialogProps> = ({ selectedText, mode }) => {
   const handleEncrypt = async () => {
     if (selectedText !== "") {
       const encryptedText = await encryptText(selectedText, password);
-      await replaceSelectedText(encryptedText);
+      await replaceSelectedText(encryptedText, "encrypt");
       setOpen(false);
     } else {
       setShowPopover(true);

@@ -27,13 +27,19 @@ export async function getSelectedText(): Promise<string | null> {
   }
 }
 
-export async function replaceSelectedText(newText: string) {
+export async function replaceSelectedText(newText: string, mode: string = "decrypt") {
   try {
     await Word.run(async (context) => {
       const selection = context.document.getSelection();
       selection.insertText(newText, Word.InsertLocation.replace);
-      selection.font.color = "red";
-      selection.font.underline = Word.UnderlineType.double;
+      if (mode === "encrypt") {
+        selection.font.color = "red";
+        selection.font.underline = Word.UnderlineType.double;
+      }
+      if (mode === "decrypt") {
+        selection.font.color = "black";
+        selection.font.underline = Word.UnderlineType.none;
+      }
       await context.sync();
     });
   } catch (error) {

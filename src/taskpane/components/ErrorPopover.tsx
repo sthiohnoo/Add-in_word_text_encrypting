@@ -19,7 +19,7 @@ const ErrorContent = () => {
     <div>
       <h3 className={styles.contentHeader}>Error</h3>
 
-      <div>No text selected. Please highlight text to encrypt.</div>
+      <div>No text selected. Please highlight text to en-/decrypt.</div>
     </div>
   );
 };
