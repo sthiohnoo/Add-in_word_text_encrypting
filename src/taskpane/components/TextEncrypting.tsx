@@ -1,6 +1,6 @@
 import * as React from "react";
 import { makeStyles } from "@fluentui/react-components";
-import PasswordDialog from "./PasswordDialog";
+import CryptDialog from "./CryptDialog";
 
 interface TextEncryptingProps {
   selectedText: () => Promise<string | null>;
@@ -32,7 +32,8 @@ const TextEncrypting: React.FC<TextEncryptingProps> = (props: TextEncryptingProp
     <div>
       <button onClick={handleSelectedText}>Show selected text</button>
       <div className={styles.textAreaDiv}>{text || "No text selected"}</div>
-      <PasswordDialog selectedText={text} />
+      <CryptDialog selectedText={text} mode={"encrypt"} />
+      <CryptDialog selectedText={text} mode={"decrypt"} />
     </div>
   );
 };

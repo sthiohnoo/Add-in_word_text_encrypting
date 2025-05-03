@@ -11,12 +11,13 @@ import {
   Input,
   makeStyles,
 } from "@fluentui/react-components";
-import { encryptText } from "../utils/crypting";
+import { decryptCipherText, encryptText } from "../utils/crypting";
 import { replaceSelectedText } from "../taskpane";
 import ErrorPopover from "./ErrorPopover";
 
 interface PasswordDialogProps {
   selectedText: string;
+  mode: string;
 }
 
 const useStyles = makeStyles({
@@ -24,19 +25,33 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
   },
+  encryptButton: {
+    backgroundColor: "blue",
+    color: "white",
+  },
+  decryptButton: {
+    backgroundColor: "green",
+    color: "white",
+  },
 });
 
-const PasswordDialog: React.FC<PasswordDialogProps> = ({ selectedText }) => {
+const CryptDialog: React.FC<PasswordDialogProps> = ({ selectedText, mode }) => {
   const [password, setPassword] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [showPopover, setShowPopover] = React.useState(false);
   const styles = useStyles();
 
+  const isEncryptMode = mode === "encrypt";
+  const cryptButtonStyle = isEncryptMode ? styles.encryptButton : styles.decryptButton;
+  const cryptButtonLabel = isEncryptMode ? "Encrypt" : "Decrypt";
+  const dialogTitle = isEncryptMode ? "Confirm Encryption" : "Confirm Decryption";
+  const dialogMessage = isEncryptMode
+    ? "Please enter your password to encrypt the selected text."
+    : "Please enter your password to decrypt the selected text.";
+
   const handleEncrypt = async () => {
     if (selectedText !== "") {
       const encryptedText = await encryptText(selectedText, password);
-      console.log("Selected text:", selectedText);
-      console.log("Encrypted text:", encryptedText);
       await replaceSelectedText(encryptedText);
       setOpen(false);
     } else {
@@ -47,17 +62,36 @@ const PasswordDialog: React.FC<PasswordDialogProps> = ({ selectedText }) => {
     }
   };
 
+  const handleDecrypt = async () => {
+    if (selectedText !== "") {
+      const decryptedText = await decryptCipherText(selectedText, password);
+      console.log(decryptedText);
+      console.log(selectedText);
+      await replaceSelectedText(decryptedText);
+      setOpen(false);
+    } else {
+      setShowPopover(true);
+      setTimeout(() => {
+        setShowPopover(false);
+      }, 3000);
+    }
+  };
+
+  const handleClick = isEncryptMode ? handleEncrypt : handleDecrypt;
+
   return (
     <Dialog open={open} onOpenChange={(_, data) => setOpen(data.open)}>
       <DialogTrigger disableButtonEnhancement>
-        <Button onClick={() => setOpen(true)}>Encrypt</Button>
+        <Button className={cryptButtonStyle} onClick={() => setOpen(true)}>
+          {cryptButtonLabel}
+        </Button>
       </DialogTrigger>
 
       <DialogSurface>
         <DialogBody>
-          <DialogTitle>Confirm Encryption</DialogTitle>
+          <DialogTitle>{dialogTitle}</DialogTitle>
           <DialogContent className={styles.dialog}>
-            Please enter your password to encrypt the selected text.
+            {dialogMessage}
             <Input
               type={"password"}
               value={password}
@@ -68,8 +102,8 @@ const PasswordDialog: React.FC<PasswordDialogProps> = ({ selectedText }) => {
             <ErrorPopover
               open={showPopover}
               trigger={
-                <Button appearance="primary" onClick={handleEncrypt} disabled={!password}>
-                  Encrypt
+                <Button appearance="primary" onClick={handleClick} disabled={!password}>
+                  {cryptButtonLabel}
                 </Button>
               }
             />
@@ -83,4 +117,4 @@ const PasswordDialog: React.FC<PasswordDialogProps> = ({ selectedText }) => {
   );
 };
 
-export default PasswordDialog;
+export default CryptDialog;
