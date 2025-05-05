@@ -42,6 +42,12 @@ const CryptDialog: React.FC<PasswordDialogProps> = ({ selectedText, mode }) => {
   const [errorMessage, setErrorMessage] = React.useState("");
   const styles = useStyles();
 
+  React.useEffect(() => {
+    if (!open) {
+      setPassword("");
+    }
+  }, [open]);
+
   const isEncryptMode = mode === "encrypt";
   const cryptButtonStyle = isEncryptMode ? styles.encryptButton : styles.decryptButton;
   const cryptButtonLabel = isEncryptMode ? "Encrypt" : "Decrypt";
