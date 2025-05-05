@@ -1,5 +1,5 @@
 import * as React from "react";
-import { makeStyles } from "@fluentui/react-components";
+import { makeStyles, Text } from "@fluentui/react-components";
 import CryptDialog from "./CryptDialog";
 
 interface TextEncryptingProps {
@@ -42,6 +42,14 @@ const Crypting: React.FC<TextEncryptingProps> = (props: TextEncryptingProps) => 
 
   return (
     <div>
+      <Text block>
+        <strong>How to Encrypt or Decrypt:</strong>
+        <ol>
+          <li>Select the text in your Word document you want to encrypt or decrypt.</li>
+          <li>Click the corresponding button below.</li>
+          <li>Enter your password. Use the same password to decrypt.</li>
+        </ol>
+      </Text>
       <div className={styles.textAreaDiv}>{text || "No text selected"}</div>
       <CryptDialog selectedText={text} mode={"encrypt"} />
       <CryptDialog selectedText={text} mode={"decrypt"} />
