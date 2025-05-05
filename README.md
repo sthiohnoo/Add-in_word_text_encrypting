@@ -1,5 +1,10 @@
 # Simple Text En-/Decryption Add-in for Microsoft Word
 
+## Table of Contents
+
+1. [Getting started](#getting-started)
+2. [Application Functionalities](#functionalities)
+
 ## Getting started
 
 ### Prerequisites
@@ -65,4 +70,35 @@ npm start
 
 ### Step 4: Use Add-in
 
-Open Microsoft Word and go to the 'Add-Ins' tab in the toolbar to launch the add-in.
+Once the add-in has successfully started, Microsoft Word will open automatically with the add-in loaded.
+
+Alternatively: Open Microsoft Word and go to the 'Add-Ins' tab in the toolbar to launch the add-in.
+
+## Functionalities
+
+- Mark any text in the document and click the "Encrypt" button to encrypt. The marked text will be displayed in the text
+  area.
+
+  ![application](assets/markedSampleText2.png)
+
+- Enter a password to proceed with the encryption.
+
+  ![application](assets/enterPassword.png)
+
+- The "Encrypt" button is disabled until a password is entered.
+
+  ![application](assets/disabledButton.png)
+
+- If you try to encrypt without selecting any text, an error message will be displayed.
+
+  ![application](assets/noTextError.png)
+
+- After successful encryption, the selected text will be replaced with the encrypted version. The encrypted text will be
+  displayed in red with a double underline.
+
+  ![application](assets/encryptedText.png)
+
+- The decryption process is similar to the encryption process. If the password is incorrect or invalid text is selected,
+  an error message will be displayed.
+
+  ![application](assets/decryptionError.png)
