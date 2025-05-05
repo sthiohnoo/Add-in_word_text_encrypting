@@ -23,14 +23,25 @@ const Crypting: React.FC<TextEncryptingProps> = (props: TextEncryptingProps) => 
   const [text, setText] = React.useState<string>("");
   const styles = useStyles();
 
-  const handleSelectedText = async () => {
-    const selectedText = await props.selectedText();
-    setText(selectedText || "");
-  };
+  React.useEffect(() => {
+    const handler = async () => {
+      const selectedText = await props.selectedText();
+      setText(selectedText || "");
+    };
+
+    Office.context.document.addHandlerAsync(
+      Office.EventType.DocumentSelectionChanged,
+      handler,
+      (result) => {
+        if (result.status !== Office.AsyncResultStatus.Succeeded) {
+          console.error("Failed to add handler:", result.error.message);
+        }
+      }
+    );
+  }, []);
 
   return (
     <div>
-      <button onClick={handleSelectedText}>Show selected text</button>
       <div className={styles.textAreaDiv}>{text || "No text selected"}</div>
       <CryptDialog selectedText={text} mode={"encrypt"} />
       <CryptDialog selectedText={text} mode={"decrypt"} />
